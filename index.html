@@ -30,7 +30,15 @@
     #message {
       font-size: 24px;
       margin-top: 30px;
-      min-height: 40px;
+      min-height: 80px;
+      padding: 15px;
+      border-radius: 10px;
+      transition: background-color 0.5s ease;
+      color: white;
+      font-weight: bold;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
   </style>
 </head>
@@ -89,6 +97,16 @@
     return messages[Math.floor(Math.random() * messages.length)];
   }
 
+  // Genera un colore casuale brillante per lo sfondo
+  function getRandomBrightColor() {
+    const letters = '89ABCDEF'; // colori abbastanza chiari/brillanti
+    let color = '#';
+    for(let i=0; i<6; i++) {
+      color += letters[Math.floor(Math.random() * letters.length)];
+    }
+    return color;
+  }
+
   function updateTimer() {
     timerEl.textContent = timeLeft;
     if (timeLeft <= 3 && timeLeft > 0) {
@@ -101,6 +119,7 @@
       clearInterval(timerInterval);
       timerEl.textContent = "0";
       timerEl.classList.remove('warning');
+      messageEl.style.backgroundColor = 'transparent';
       messageEl.textContent = "Tempo scaduto! Prossima offerta.";
       rilancioBtn.disabled = true;
       astaChiusaBtn.disabled = false;
@@ -120,6 +139,7 @@
 
   startBtn.addEventListener('click', () => {
     messageEl.textContent = '';
+    messageEl.style.backgroundColor = 'transparent';
     rilancioBtn.disabled = false;
     astaChiusaBtn.disabled = true;
     startTimer();
@@ -127,16 +147,21 @@
 
   rilancioBtn.addEventListener('click', () => {
     if (timeLeft > 0) {
-      messageEl.textContent = getRandomMessage(rilancioMessages);
-      startTimer(); // resetta il timer da 8
+      const msg = getRandomMessage(rilancioMessages);
+      messageEl.textContent = msg;
+      messageEl.style.backgroundColor = getRandomBrightColor();
+      startTimer(); // reset timer
     } else {
       messageEl.textContent = "Non puoi rilanciare, tempo scaduto!";
+      messageEl.style.backgroundColor = 'transparent';
       rilancioBtn.disabled = true;
     }
   });
 
   astaChiusaBtn.addEventListener('click', () => {
-    messageEl.textContent = getRandomMessage(chiusaMessages);
+    const msg = getRandomMessage(chiusaMessages);
+    messageEl.textContent = msg;
+    messageEl.style.backgroundColor = getRandomBrightColor();
     rilancioBtn.disabled = true;
     astaChiusaBtn.disabled = true;
     clearInterval(timerInterval);
