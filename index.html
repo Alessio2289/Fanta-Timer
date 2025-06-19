@@ -99,6 +99,8 @@
 
     if (timeLeft === 0) {
       clearInterval(timerInterval);
+      timerEl.textContent = "0";
+      timerEl.classList.remove('warning');
       messageEl.textContent = "Tempo scaduto! Prossima offerta.";
       rilancioBtn.disabled = true;
       astaChiusaBtn.disabled = false;
@@ -126,7 +128,7 @@
   rilancioBtn.addEventListener('click', () => {
     if (timeLeft > 0) {
       messageEl.textContent = getRandomMessage(rilancioMessages);
-      startTimer(); // resetta il timer
+      startTimer(); // resetta il timer da 8
     } else {
       messageEl.textContent = "Non puoi rilanciare, tempo scaduto!";
       rilancioBtn.disabled = true;
